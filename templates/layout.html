@@ -1,3 +1,4 @@
+<!-- layout so we keep our code DRY, reusing code that we already made and overwriting what we need for each individual page -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,10 +7,10 @@
     {% if title%}
         <title>Neka's Portfolio Site - {{ title }}</title>
     {% else%}
-    <title>Neka's Portfolio Site</title>
+        <title>Neka's Portfolio Site</title>
     {% endif%}
 </head>
 <body>
-    <h1>Projects</h1>
+    {% block content %}{% endblock %} <!--resuable content block that can be overridden elsewhere-->
 </body>
 </html>
