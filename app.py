@@ -21,7 +21,7 @@ posts = [
 @app.route("/")#<--creating route with app.route decorator and endpoint forward slash
 @app.route("/home")#<--can have multiple endpoints pointing to the same page, handled by the same function
 def home():
-    return render_template("home.html", posts=posts, title="Home")#<--using variable name for list of dictionaries
+    return render_template("home.html", title="Home")#<--using variable name for list of dictionaries
 
 @app.route("/about")
 def about():
@@ -33,7 +33,7 @@ def projects():#<--Kept getting an assertion error(view function mapping is over
 
 @app.route("/blog")
 def blog():
-    return render_template("blog.html", title="Blog")
+    return render_template("blog.html", posts=posts, title="Blog")
 
 
 if __name__ == "__main__":#<--conditional using dunder, used when script runs module directly

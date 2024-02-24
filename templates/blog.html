@@ -1,4 +1,8 @@
 {% extends "layout.html" %}
 {% block content %}
-<h1>Neka's Blog</h1>
+    {%for post in posts%}<!--start of code block-->
+        <h1>{{ post.title }}</h1><!--dot notation works-->
+        <p>By {{ post.author }} on {{ post.date_posted }}</p>
+        <p>{{ post.content }}</p>
+    {%endfor%}<!--end of code block-->
 {% endblock content %}
