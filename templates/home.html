@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% if title%}
+        <title>Neka's Portfolio Site - {{ title }}</title>
+    {% else%}
+        <title>Neka's Portfolio Site</title>
+    {% endif%}
+</head>
+<body>
+    <h1>Home Page</h1><!--because of Jinja2, we can write code in our template-->
+    {%for post in posts%}<!--start of code block-->
+        <h1>{{ post.title }}</h1><!--dot notation works-->
+        <p>By {{ post.author }} on {{ post.date_posted }}</p>
+        <p>{{ post.content }}</p>
+    {%endfor%}<!--end of code block-->
+</body>
+</html>
