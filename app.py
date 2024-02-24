@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, url_for
 from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv
 
@@ -34,7 +34,7 @@ class MockData(db.Model): #<--making our sql data table into a class
     ip_address = db.Column(db.String(20))
     gender = db.Column(db.String(6))
 
-    def __repr__(self):
+    def __repr__(self):#<--repr dunder
         return "<Name %r>" % self.name
 
     @app.route("/")#<--creating route with app.route decorator and endpoint forward slash
