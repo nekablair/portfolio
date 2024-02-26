@@ -1,8 +1,11 @@
 from flask import Flask, render_template, request, jsonify, url_for
 from flask_sqlalchemy import SQLAlchemy
-from dotenv import load_dotenv
+from dotenv import load_dotenv #<--brings env variable into python app
+import os #<--brings env variable into python app
 
 load_dotenv()
+SECRET = os.getenv("SECRET")#<--Returns value of environment variable key as a string if it exists
+
 
 app = Flask(__name__) #<--naming the application with variable app
 
@@ -28,7 +31,7 @@ posts = [
 #creating a database model
 class MockData(db.Model): #<--making our sql data table into a class 
     id = db.Column(db.Integer, primary_key=True)
-    first_name = db.Column(db.String(30), nullable=False) #<--something must be placed into this row
+    first_name = db.Column(db.String(30), nullable=False) #<--something must be placed into this row since it is nullable=False
     last_name = db.Column(db.String(30), nullable=False)
     email = db.Column(db.String(35), unique=True, nullable=False)
     ip_address = db.Column(db.String(20))
@@ -53,6 +56,12 @@ class MockData(db.Model): #<--making our sql data table into a class
     @app.route("/blog")
     def blog():
         return render_template("blog.html", posts=posts, title="Blog")
+
+    @app.route("/api/v1/mock_data", methods=["GET"])
+    def all_data():
+        data = MockData.query.all()
+        print(jsonify(data))
+        return jsonify(data)
 
 if __name__ == "__main__":#<--conditional using dunder, used when script runs module directly
     app.run(debug=True)#<--server in debug mode, not to be used in production
