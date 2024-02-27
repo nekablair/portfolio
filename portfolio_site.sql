@@ -34,8 +34,7 @@ CREATE TABLE mock_data (
     gender VARCHAR(6)
 );
 
-\COPY mock_data FROM '/home/neka/projects/portfolio-site/data/data.csv' DELIMI
-TER ',' CSV HEADER;
+\COPY mock_data FROM '/home/neka/projects/portfolio-site/data/data.csv' DELIMITER ',' CSV HEADER;
 
 -- INSERT INTO mock_data (id, first_name, last_name, email, ip_address, gender) VALUES (1, "")
 
@@ -47,3 +46,5 @@ TER ',' CSV HEADER;
 
 -- use the following command in postgres without a semicolon since it is not specific to postgres to start the .sql file to fun postgres sql commands for the database
 -- \i <absolute path to file>
+
+SELECT * FROM mock_data;

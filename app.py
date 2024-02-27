@@ -9,7 +9,7 @@ SECRET = os.getenv("SECRET")#<--Returns value of environment variable key as a s
 
 app = Flask(__name__) #<--naming the application with variable app
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://{SECRET}@localhost:5000/portfolio_site"
+app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://xxxxxxxxxxx@localhost:5432/portfolio_site" #<--input the database port so it can connect
                                                                 #instead of local host , you would use wherever your database url and port is living online
 db = SQLAlchemy(app)#<--using db as variable to hold sqlalchemy reference to app in line 4, much quicker way to write instead of the full name
 
@@ -40,28 +40,35 @@ class MockData(db.Model): #<--making our sql data table into a class
     def __repr__(self):#<--repr dunder
         return "<Name %r>" % self.name
 
-    @app.route("/")#<--creating route with app.route decorator and endpoint forward slash
-    @app.route("/home")#<--can have multiple endpoints pointing to the same page, handled by the same function
-    def home():
-        return render_template("home.html", title="Home")#<--using variable name for list of dictionaries
+@app.route("/")#<--creating route with app.route decorator and endpoint forward slash
+@app.route("/home")#<--can have multiple endpoints pointing to the same page, handled by the same function
+def home():
+    return render_template("home.html", title="Home")#<--using variable name for list of dictionaries
 
-    @app.route("/about")
-    def about():
-        return render_template("about.html", title="About")
+@app.route("/about")
+def about():
+    return render_template("about.html", title="About")
 
-    @app.route("/projects")
-    def projects():#<--Kept getting an assertion error(view function mapping is overwriting an existing endpoint function: about. I debugged and found I didn't change the method name.)
-        return render_template("projects.html", title="Projects")
+@app.route("/projects")
+def projects():#<--Kept getting an assertion error(view function mapping is overwriting an existing endpoint function: about. I debugged and found I didn't change the method name.)
+    return render_template("projects.html", title="Projects")
 
-    @app.route("/blog")
-    def blog():
-        return render_template("blog.html", posts=posts, title="Blog")
+@app.route("/blog")
+def blog():
+    return render_template("blog.html", posts=posts, title="Blog")
 
-    @app.route("/api/v1/mock_data", methods=["GET"])
-    def all_data():
-        data = MockData.query.all()
-        print(jsonify(data))
-        return jsonify(data)
+@app.route("/api/v1/mock_data/", methods=["GET"])
+def all_data():
+    # print("test")#<--debug purposes
+    data = MockData.query.all()
+    # print("test2")#<--debug purposes
+    data_list = [
+        {'first_name': item.first_name, 'last_name': item.last_name, 'email': item.email} for item in data]
+    return jsonify(data_list)
+    # dummy_data = [#<--debug purposes
+    #     {'first_name': "Will", 'last_name': 'Smith'}
+    # ]
+    # return jsonify(dummy_data)
 
 if __name__ == "__main__":#<--conditional using dunder, used when script runs module directly
     app.run(debug=True)#<--server in debug mode, not to be used in production
